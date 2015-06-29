@@ -8,13 +8,19 @@ public class Move : MonoBehaviour
 
     Rigidbody myRigidBody;
 
+
     bool changedGravity = false;
+
 
     public float jumpHeight;
 
     bool grounded = true;
 
-    // float groundDistance;
+
+    public bool onCage;
+
+    GameObject cageOBJ;
+
 
     // Use this for initialization
     void Start()
@@ -35,7 +41,7 @@ public class Move : MonoBehaviour
             // offsetDistance = hit.distance;
             grounded = true;
 
-            print("Grounded");
+            //print("Grounded");
 
             //Debug.DrawLine(transform.position, hit.point, Color.cyan);
         }
@@ -77,14 +83,47 @@ public class Move : MonoBehaviour
             if (changedGravity == false)
             {
                 changedGravity = true;
-                Physics.gravity = new Vector3(0, 25, 0);
+                Physics.gravity = new Vector3(0, 9.81f, 0);
             }
             else if (changedGravity == true)
             {
                 changedGravity = false;
-                Physics.gravity = new Vector3(0, -25, 0);
+                Physics.gravity = new Vector3(0, -9.81f, 0);
             }
         }
 
+        // Pickup Cage
+
+        if (onCage == true)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                print("PickUp cage");
+
+                cageOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, 0);
+
+
+            }
+        }
+
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Cage")
+        {
+            print("Cage");
+
+            cageOBJ = col.gameObject;
+
+            onCage = true;
+
+
+
+        }
+        else
+        {
+           // onCage = false;
+        }
     }
 }
