@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     Rigidbody myRigidBody;
 
 
-    bool changedGravity = false;
+    public bool changedGravity = false;
 
 
     public float jumpHeight;
@@ -27,6 +27,8 @@ public class PlayerMove : MonoBehaviour
     //public bool onCrate;
 
     Transform thingToPushPull;
+
+    public bool inMagic;
 
 
     // Use this for initialization
@@ -112,17 +114,20 @@ public class PlayerMove : MonoBehaviour
 
 
         // Flip Gravity
-        if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
+        if (inMagic == true)
         {
-            if (changedGravity == false)
+            if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
             {
-                changedGravity = true;
-                Physics.gravity = new Vector3(0, 9.81f, 0);
-            }
-            else if (changedGravity == true)
-            {
-                changedGravity = false;
-                Physics.gravity = new Vector3(0, -9.81f, 0);
+                if (changedGravity == false)
+                {
+                    changedGravity = true;
+                    Physics.gravity = new Vector3(0, 9.81f, 0);
+                }
+                else if (changedGravity == true)
+                {
+                    changedGravity = false;
+                    Physics.gravity = new Vector3(0, -9.81f, 0);
+                }
             }
         }
 
@@ -152,15 +157,15 @@ public class PlayerMove : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Cage")
+        if (col.gameObject.tag == "Companion")
         {
-            print("Cage");
+            print("Companion");
 
             CompanionnOBJ = col.gameObject;
 
             onCompanion = true;
         }
-        else if (col.gameObject.tag != "Cage")
+        else if (col.gameObject.tag != "Companion")
         {
             CompanionnOBJ = null;
 
@@ -186,23 +191,45 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnTriggerStay(Collider col)
     {
-        // if (hit.transform.tag == "Crate") // NOTE: tags checking may be better
-        //{
-        //thingToPushPull = hit.transform;
+        if (col.gameObject.tag == "Magic Area")
+        {
+            print("Im in magic");
 
-        print("Hit Crate");
-
-        Rigidbody body = hit.collider.attachedRigidbody;
-        if (body == null || body.isKinematic)
-            return;
-
-        if (hit.moveDirection.y < -0.3F)
-            return;
-
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.velocity = pushDir * pushPullForce;
-        // }
+            inMagic = true;
+        }
     }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "Magic Area")
+        {
+            print("Im OUT magic");
+
+            inMagic = false;
+
+            Physics.gravity = new Vector3(0, -9.81f, 0);
+        }
+    }
+
+    //void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    // if (hit.transform.tag == "Crate") // NOTE: tags checking may be better
+    //    //{
+    //    //thingToPushPull = hit.transform;
+
+    //    print("Hit Crate");
+
+    //    Rigidbody body = hit.collider.attachedRigidbody;
+    //    if (body == null || body.isKinematic)
+    //        return;
+
+    //    if (hit.moveDirection.y < -0.3F)
+    //        return;
+
+    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+    //    body.velocity = pushDir * pushPullForce;
+    //    // }
+    //}
 }

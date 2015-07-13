@@ -40,12 +40,14 @@ public class PlayerShoot : MonoBehaviour {
     {
         if (col.gameObject.tag == "Magic Area")
         {
-            print("Im in magic");
+           // print("Im in magic");
 
             canShoot = true;
         }
         else
         {
+            //print("Im OUT magic");
+
             canShoot = false;
         }
 
