@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
 
     //public bool onCrate;
 
-    Transform thingToPushPull;
+    GameObject thingToPushPull;
 
     public bool inMagic;
 
@@ -138,7 +138,7 @@ public class PlayerMove : MonoBehaviour
             {
                 //print("PickUp cage");
 
-                CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, 0);
+                CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
 
             }
         }
@@ -172,23 +172,28 @@ public class PlayerMove : MonoBehaviour
             onCompanion = false;
         }
 
-        //if (col.gameObject.tag == "Crate")
-        //{
-        //    print("Crate");
+        if (col.gameObject.tag == "Pushable")
+        {
+            print("Hit Crate");
 
-        //    crateOBJ = col.gameObject;
+            thingToPushPull = col.gameObject;
 
-        //    onCrate = true;
-        //}
-        //else
-        //{
-        //    crateOBJ = null;
+            Vector3 pushDir = new Vector3(thingToPushPull.rigidbody.velocity.x,0,0);
 
-        //    onCrate = false;
-        //}
+            thingToPushPull.rigidbody.velocity = pushDir * 1;
 
+            speed = 5;
+        }
 
+    }
 
+    void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.tag == "Pushable")
+        {
+
+            speed = 15;
+        }
     }
 
     void OnTriggerStay(Collider col)
