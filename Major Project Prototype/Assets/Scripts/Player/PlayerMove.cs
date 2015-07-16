@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
 
                 grounded = true;
 
-                //print("Grounded");
+                print("Grounded");
             }
             else
             {
@@ -63,7 +63,7 @@ public class PlayerMove : MonoBehaviour
             {
                 grounded = true;
 
-                //print("Grounded");
+                print("Grounded");
             }
             else
             {
