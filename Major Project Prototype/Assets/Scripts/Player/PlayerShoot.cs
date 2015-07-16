@@ -35,7 +35,7 @@ public class PlayerShoot : MonoBehaviour
                 Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
                 GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
 
-                projectile.transform.parent = shotParent.transform;
+                //projectile.transform.parent = shotParent.transform;
 
                 projectile.rigidbody.velocity = direction * shootSpeed;
 
