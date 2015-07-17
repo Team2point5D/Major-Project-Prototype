@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class PuzzleOneGravCube : MonoBehaviour {
 
     PlayerMove PM;
@@ -15,11 +16,6 @@ public class PuzzleOneGravCube : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
     {
-        //rigidbody.velocity -= 200 * Time.fixedTime * (this.gameObject.transform.position - transform.position);
-
-        //rigidbody.useGravity = false;
-
-        //rigidbody.constantForce = 
 
         if (PM.changedGravity == true)
         {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class TestMagicBul : MonoBehaviour {
 
     public float lifeTime;
