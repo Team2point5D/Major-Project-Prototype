@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//David
 public class Object : MonoBehaviour {
 
 	public bool bIsObjectLight = true;
@@ -14,7 +15,7 @@ public class Object : MonoBehaviour {
 	{
 		if(bIsObjectLight)
 		{
-
+            
 		}
 	}
 }

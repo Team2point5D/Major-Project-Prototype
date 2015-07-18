@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Marcus
 public class CompanionMagic : MonoBehaviour {
 
 	// Use this for initialization
