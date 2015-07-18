@@ -125,7 +125,7 @@ public class PlayerMoveDTwo : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
             {
-               
+
 
                 if (changedGravity == false)
                 {
@@ -145,29 +145,45 @@ public class PlayerMoveDTwo : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
             {
-                //print("PickUp cage");
+                if (pickedUp == false)
+                {
+                    //print("PickUp cage");
 
-                CompanionnOBJ.GetComponent<MeshRenderer>().enabled = false;
+                    print("Press 1");
 
-               // CompanionnOBJ.GetComponent<BoxCollider>().enabled = false;
+                    pickedUp = true;
 
-                CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+                    //CompanionnOBJ.GetComponent<MeshRenderer>().enabled = false;
 
-                magicCircle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+                    //CompanionnOBJ.GetComponent<BoxCollider>().enabled = false;
+
+                    CompanionnOBJ.SetActive(false);
+
+                    CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+
+                    magicCircle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+                }
+                else if (pickedUp == true)
+                {
+                    print("Press 2");
+
+                    pickedUp = false;
+
+                    CompanionnOBJ.SetActive(true);
+
+                    CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+
+                    magicCircle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+
+                    CompanionnOBJ.GetComponent<MeshRenderer>().enabled = true;
+
+                    //CompanionnOBJ.GetComponent<BoxCollider>().enabled = true;
+                }
 
 
 
             }
-            else// if((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
-            {
-                CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
 
-                magicCircle.transform.position = CompanionnOBJ.transform.position;
-
-                CompanionnOBJ.GetComponent<MeshRenderer>().enabled = true;
-
-                //CompanionnOBJ.GetComponent<BoxCollider>().enabled = true;
-            }
         }
 
         // Push/pull

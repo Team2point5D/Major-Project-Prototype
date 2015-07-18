@@ -4,14 +4,16 @@ using System.Collections;
 //Marcus
 public class PuzzleOneGravCube : MonoBehaviour {
 
+   // PlayerBehaviour PB;
+
     PlayerMoveDTwo PM;
 
 	// Use this for initialization
 	void Start () 
     {
-       // PM = GameObject.Find("Player").GetComponent<PlayerMove>();
+      //  PB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 
-        PM = GameObject.Find("Player").GetComponent<PlayerMoveDTwo>(); 
+        PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMoveDTwo>(); 
 	
 	}
 	
