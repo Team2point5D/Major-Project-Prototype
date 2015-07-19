@@ -153,15 +153,19 @@ public class PlayerMoveDTwo : MonoBehaviour
 
                     pickedUp = true;
 
-                    //CompanionnOBJ.GetComponent<MeshRenderer>().enabled = false;
+                   // CompanionnOBJ.GetComponent<MeshRenderer>().enabled = false;
 
                     //CompanionnOBJ.GetComponent<BoxCollider>().enabled = false;
 
                     CompanionnOBJ.SetActive(false);
 
+                   // magicCircle.SetActive(true);
+
                     CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
 
                     magicCircle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+
+                    this.gameObject.renderer.material.color = Color.yellow;
                 }
                 else if (pickedUp == true)
                 {
@@ -176,6 +180,8 @@ public class PlayerMoveDTwo : MonoBehaviour
                     magicCircle.transform.position = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
 
                     CompanionnOBJ.GetComponent<MeshRenderer>().enabled = true;
+
+                    this.gameObject.renderer.material.color = Color.green;
 
                     //CompanionnOBJ.GetComponent<BoxCollider>().enabled = true;
                 }
@@ -263,23 +269,5 @@ public class PlayerMoveDTwo : MonoBehaviour
         }
     }
 
-    //void OnControllerColliderHit(ControllerColliderHit hit)
-    //{
-    //    // if (hit.transform.tag == "Crate") // NOTE: tags checking may be better
-    //    //{
-    //    //thingToPushPull = hit.transform;
 
-    //    print("Hit Crate");
-
-    //    Rigidbody body = hit.collider.attachedRigidbody;
-    //    if (body == null || body.isKinematic)
-    //        return;
-
-    //    if (hit.moveDirection.y < -0.3F)
-    //        return;
-
-    //    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-    //    body.velocity = pushDir * pushPullForce;
-    //    // }
-    //}
 }

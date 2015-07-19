@@ -41,15 +41,15 @@ public class PlayerBehaviour : MonoBehaviour {
 		{
 			bIsHeavySelected = !bIsHeavySelected;
 		}
-		
-		if(bIsHeavySelected)
-		{
-			teSelectedMass.text = "Heavy";
-		}
-		else
-		{
-			teSelectedMass.text = "Light";
-		}
+
+        if (bIsHeavySelected)
+        {
+            teSelectedMass.text = "Heavy";
+        }
+        else
+        {
+            teSelectedMass.text = "Light";
+        }
 	}
 
 	void FixedUpdate()
@@ -240,6 +240,28 @@ public class PlayerBehaviour : MonoBehaviour {
 			
 			canShoot = true;
 		}
+
+        if (col.gameObject.tag == "Climeable")
+        {
+            print("Ladder");
+
+            if (Input.GetKey(KeyCode.Q))
+            {
+               // gameObject.transform.position = new Vector3(0,
+
+                transform.Translate(0f, 0.5f, 0f);
+            }
+        }
+
+        if (col.gameObject.tag == "Lever")
+        {
+            print("Lever");
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+               // print("Lever Switch");
+            }
+        }
 	}
 	
 	void OnTriggerExit(Collider col)
@@ -259,25 +281,9 @@ public class PlayerBehaviour : MonoBehaviour {
 			
 			canShoot = false;
 		}
+
+        
 	}
 	
-	//void OnControllerColliderHit(ControllerColliderHit hit)
-	//{
-	//    // if (hit.transform.tag == "Crate") // NOTE: tags checking may be better
-	//    //{
-	//    //thingToPushPull = hit.transform;
-	
-	//    print("Hit Crate");
-	
-	//    Rigidbody body = hit.collider.attachedRigidbody;
-	//    if (body == null || body.isKinematic)
-	//        return;
-	
-	//    if (hit.moveDirection.y < -0.3F)
-	//        return;
-	
-	//    Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-	//    body.velocity = pushDir * pushPullForce;
-	//    // }
-	//}
+
 }
