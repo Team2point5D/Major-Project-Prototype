@@ -6,14 +6,14 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
     PlayerBehaviour PB;
 
-    //PlayerMoveDTwo PM;
+    PlayerMoveDTwo PM;
 
 	// Use this for initialization
 	void Start () 
     {
-        PB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
+      PB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 
-       // PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMoveDTwo>(); 
+       PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMoveDTwo>(); 
 	
 	}
 	
@@ -21,13 +21,13 @@ public class PuzzleOneGravCube : MonoBehaviour {
 	void FixedUpdate () 
     {
 
-        if (PB.changedGravity == true)
+        if (PM.changedGravity == true)
         {
            // rigidbody.useGravity = true;
 
             rigidbody.AddForce(new Vector3(0, -10, 0));
         }
-        else if(PB.changedGravity == false)
+        else if(PM.changedGravity == false)
         {
            // rigidbody.useGravity = false;
 
@@ -35,6 +35,21 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
 
         }
+		if (PB.changedGravity == true)
+		{
+			// rigidbody.useGravity = true;
+			
+			rigidbody.AddForce(new Vector3(0, -10, 0));
+		}
+		else if(PB.changedGravity == false)
+		{
+			// rigidbody.useGravity = false;
+			
+			rigidbody.AddForce(new Vector3(0,10,0));
+			
+			
+		}
+
 
         
 	
