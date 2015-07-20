@@ -272,7 +272,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			
 			inMagic = false;
 			
-			Physics.gravity = new Vector3(0, -9.81f, 0);
+			//Physics.gravity = new Vector3(0, -9.81f, 0);
 		}
 
 		if (col.gameObject.tag == "Magic Area")
