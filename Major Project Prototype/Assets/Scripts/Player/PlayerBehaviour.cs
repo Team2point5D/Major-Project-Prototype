@@ -107,6 +107,8 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 		
 		// Player move input
+
+        // TO DO: add xbox controller support
 		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 		{
 			myRigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, myRigidBody.velocity.y);
@@ -168,7 +170,9 @@ public class PlayerBehaviour : MonoBehaviour {
 			}
 		}
 		
-		// Pickup Cage
+		// Pickup Companion
+
+        //To change so that you toggle press. When pickup the companion i dont have to be colliding with it to hold
 		if (onCompanion == true)
 		{
 			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
@@ -183,7 +187,8 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Push/pull
 
 	}
-	
+
+    // Collision
 	void OnCollisionEnter(Collision col)
 	{
 		if (col.gameObject.tag == "Companion")
@@ -216,6 +221,7 @@ public class PlayerBehaviour : MonoBehaviour {
 		
 	}
 	
+  
 	void OnCollisionExit(Collision col)
 	{
 		if (col.gameObject.tag == "Pushable")

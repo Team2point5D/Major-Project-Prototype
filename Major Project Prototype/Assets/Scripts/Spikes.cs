@@ -24,6 +24,15 @@ public class Spikes : MonoBehaviour {
         {
             col.gameObject.transform.position = respawnPOS.position;
             
+
+        }
+
+        // ???
+        if (col.gameObject.tag == "Companion")
+        {
+            print("HIT");
+
+            col.gameObject.transform.position = respawnPOS.position;
         }
     }
 
