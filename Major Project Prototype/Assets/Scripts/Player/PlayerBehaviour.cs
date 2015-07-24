@@ -3,31 +3,36 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerBehaviour : MonoBehaviour {
-
+	[Header("Powers")]
 	public bool bIsHeavySelected = false;
-	public bool changedGravity = false;
-	public bool onCompanion;
-	public bool inMagic;
+	public bool bIsGravityReversed = false;
+	private bool onCompanion;
+	private bool inMagic;
 	//public bool onCrate;
-	private bool grounded = true;
+
+	[Header("Shooting")]
+	public float shootSpeed;
+	public Transform shotSpot;
+	public GameObject shotBullet;
 	private bool canShoot;
 
-	public float shootSpeed;
-	public float speed;
-	public float jumpHeight;
+	[Header("Movement")]
+	public float moveSpeed;
+	public float jumpForce;
+	public float jumpIncrease;
 	public float pushPullForce;
+	private float jumpIncreaseTime;
+	private bool bIsGrounded = true;
 
-	public Transform shotSpot;
+	[Header("User Interface")]
+	public Text teSelectedMass;
+	public Text teSelectedGravity;
 
 	private Rigidbody myRigidBody;
 
-	public GameObject shotBullet;
 	private GameObject CompanionnOBJ;
 	private GameObject thingToPushPull;
 	private GameObject shotParent;
-
-	public Text teSelectedMass;
-	public Text teSelectedGravity;
 
 	void Start()
 	{
@@ -54,6 +59,9 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+		float clampedY = Mathf.Clamp (0, 0, 0);
+		float clampedZ = Mathf.Clamp (0, 0, 0);
+		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
 
 		if (canShoot == true)
 		{
@@ -76,76 +84,72 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 
 		// Make a raycast that checks player is on ground or ceilling
-		RaycastHit hit;
-		
-		if (changedGravity == false)
+		if (bIsGravityReversed == false)
 		{
-			if (Physics.Raycast(transform.position, -Vector3.up, out hit, 2f))
-			{
-				
-				grounded = true;
-				
-				print("Grounded");
+			if (Physics.Raycast(transform.position, Vector3.down, 1f))
+			{ 
+				bIsGrounded = true;
 			}
 			else
 			{
-				grounded = false;
+				bIsGrounded = false;
 			}
 		}
 		else
 		{
-			if (Physics.Raycast(transform.position, Vector3.up, out hit, 2f))
-			{
-				grounded = true;
-				
-				print("Grounded");
+			if (Physics.Raycast(transform.position, Vector3.up, 1f))
+			{ 
+				bIsGrounded = true;
 			}
 			else
 			{
-				grounded = false;
+				bIsGrounded = false;
 			}
 		}
 		
 		// Player move input
-
+		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
+		{
+			gameObject.transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+		}
+		if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
+		{
+			transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+		}
         // TO DO: add xbox controller support
-		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-		{
-			myRigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, myRigidBody.velocity.y);
-			
-			//if (onCrate == true)
-			//{
-			//    if (Input.GetKeyDown(KeyCode.C))
-			//    {
-			
-			//    }
-			//}
-			
-		}
-		else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-		{
-			myRigidBody.velocity = new Vector2(-Input.GetAxis("Horizontal") * -speed, myRigidBody.velocity.y);
-		}
 		
 		
 		//If the player is on the ground or the ceilling
-		if (grounded == true)
+		if(bIsGravityReversed == false)
 		{
-			if (changedGravity == false)
+			if(Input.GetButtonDown ("Jump") && bIsGrounded == true)
 			{
-				
-				if (Input.GetKeyDown(KeyCode.Space))
+				rigidbody.velocity = new Vector3(0f, jumpForce, 0f);
+				jumpIncreaseTime = 0.5f;
+			}
+			if(jumpIncreaseTime > 0f)
+			{
+				jumpIncreaseTime -= Time.deltaTime;
+				if(Input.GetButton ("Jump"))
 				{
-					myRigidBody.velocity = new Vector2(Input.GetAxis("Vertical") * 75, myRigidBody.velocity.x);
+					rigidbody.velocity += new Vector3(0f, jumpIncrease, 0f);
 				}
 			}
-			else
+		}
+		else
+		{
+			if(Input.GetButtonDown ("Jump") && bIsGrounded == true)
 			{
-				if (Input.GetKeyDown(KeyCode.Space))
+				rigidbody.velocity = new Vector3(0f, -jumpForce, 0f);
+				jumpIncreaseTime = 0.5f;
+			}
+			if(jumpIncreaseTime > 0f)
+			{
+				jumpIncreaseTime -= Time.deltaTime;
+				if(Input.GetButton ("Jump"))
 				{
-					myRigidBody.velocity = new Vector2(Input.GetAxis("Vertical") * 75, -myRigidBody.velocity.x);
+					rigidbody.velocity += new Vector3(0f, -jumpIncrease, 0f);
 				}
-				
 			}
 		}
 		
@@ -155,17 +159,21 @@ public class PlayerBehaviour : MonoBehaviour {
 		{
 			if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
 			{
-				if (changedGravity == false)
+				if (bIsGravityReversed == false)
 				{
-					changedGravity = true;
+					bIsGravityReversed = true;
 					teSelectedGravity.text = "Up";
 					Physics.gravity = new Vector3(0, 9.81f, 0);
+//					LeanTween.rotateX (gameObject, 180, 1f);
+//					LeanTween.rotateLocal (gameObject, new Vector3 (180, 0, 0), 1f);
 				}
-				else if (changedGravity == true)
+				else if (bIsGravityReversed == true)
 				{
-					changedGravity = false;
+					bIsGravityReversed = false;
 					teSelectedGravity.text = "Down";
 					Physics.gravity = new Vector3(0, -9.81f, 0);
+//					LeanTween.rotateX (gameObject, 0, 1f);
+//					LeanTween.rotateLocal (gameObject, new Vector3 (0, 0, 0), 1f);
 				}
 			}
 		}
@@ -216,7 +224,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			
 			thingToPushPull.rigidbody.velocity = pushDir * 1;
 			
-			speed = 5;
+			moveSpeed = 5;
 		}
 		
 	}
@@ -227,7 +235,7 @@ public class PlayerBehaviour : MonoBehaviour {
 		if (col.gameObject.tag == "Pushable")
 		{
 			
-			speed = 15;
+			moveSpeed = 15;
 		}
 	}
 	

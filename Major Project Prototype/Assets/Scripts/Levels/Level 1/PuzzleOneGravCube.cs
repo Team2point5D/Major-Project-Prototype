@@ -35,13 +35,13 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
 
         }
-		if (PB.changedGravity == true)
+		if (PB.bIsGravityReversed == true)
 		{
 			// rigidbody.useGravity = true;
 			
 			rigidbody.AddForce(new Vector3(0, -10, 0));
 		}
-		else if(PB.changedGravity == false)
+		else if(PB.bIsGravityReversed == false)
 		{
 			// rigidbody.useGravity = false;
 			
