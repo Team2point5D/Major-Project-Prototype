@@ -110,19 +110,19 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Player move input
 		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
 		{
-			gameObject.transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+			transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
 		}
 		if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
 		{
 			transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
 		}
         // TO DO: add xbox controller support
-		
+		transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
 		
 		//If the player is on the ground or the ceilling
 		if(bIsGravityReversed == false)
 		{
-			if(Input.GetButtonDown ("Jump") && bIsGrounded == true)
+			if((Input.GetButtonDown ("Jump") || Input.GetButtonDown ("A")) && bIsGrounded == true)
 			{
 				rigidbody.velocity = new Vector3(0f, jumpForce, 0f);
 				jumpIncreaseTime = 0.5f;
@@ -130,7 +130,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			if(jumpIncreaseTime > 0f)
 			{
 				jumpIncreaseTime -= Time.deltaTime;
-				if(Input.GetButton ("Jump"))
+				if((Input.GetButtonDown ("Jump") || Input.GetButtonDown ("A")))
 				{
 					rigidbody.velocity += new Vector3(0f, jumpIncrease, 0f);
 				}
@@ -138,7 +138,7 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 		else
 		{
-			if(Input.GetButtonDown ("Jump") && bIsGrounded == true)
+			if((Input.GetButtonDown ("Jump") || Input.GetButtonDown ("A")) && bIsGrounded == true)
 			{
 				rigidbody.velocity = new Vector3(0f, -jumpForce, 0f);
 				jumpIncreaseTime = 0.5f;
@@ -157,7 +157,7 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Flip Gravity
 		if (inMagic == true)
 		{
-			if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1"))
+			if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown("1") || Input.GetButtonDown ("Y"))
 			{
 				if (bIsGravityReversed == false)
 				{

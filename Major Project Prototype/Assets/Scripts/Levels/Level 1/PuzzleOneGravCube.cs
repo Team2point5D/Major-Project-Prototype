@@ -4,30 +4,25 @@ using System.Collections;
 //Marcus
 public class PuzzleOneGravCube : MonoBehaviour {
 
-    PlayerBehaviour PB;
-
-    PlayerMoveDTwo PM;
+    PlayerBehaviour Player;
 
 	// Use this for initialization
 	void Start () 
     {
-      PB = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
-
-       PM = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMoveDTwo>(); 
-	
+      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () 
     {
 
-        if (PM.changedGravity == true)
+        if (Player.bIsGravityReversed == true)
         {
            // rigidbody.useGravity = true;
 
             rigidbody.AddForce(new Vector3(0, -10, 0));
         }
-        else if(PM.changedGravity == false)
+        else if(Player.bIsGravityReversed == false)
         {
            // rigidbody.useGravity = false;
 
@@ -35,20 +30,20 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
 
         }
-		if (PB.bIsGravityReversed == true)
-		{
-			// rigidbody.useGravity = true;
-			
-			rigidbody.AddForce(new Vector3(0, -10, 0));
-		}
-		else if(PB.bIsGravityReversed == false)
-		{
-			// rigidbody.useGravity = false;
-			
-			rigidbody.AddForce(new Vector3(0,10,0));
-			
-			
-		}
+//		if (Player.bIsGravityReversed == true)
+//		{
+//			// rigidbody.useGravity = true;
+//			
+//			rigidbody.AddForce(new Vector3(0, -10, 0));
+//		}
+//		else if(PB.bIsGravityReversed == false)
+//		{
+//			// rigidbody.useGravity = false;
+//			
+//			rigidbody.AddForce(new Vector3(0,10,0));
+//			
+//			
+//		}
 
 
         
