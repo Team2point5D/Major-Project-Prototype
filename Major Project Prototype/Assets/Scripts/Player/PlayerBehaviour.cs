@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerBehaviour : MonoBehaviour {
+
 	[Header("Powers")]
 	public bool bIsHeavySelected = false;
 	public bool bIsGravityReversed = false;
@@ -187,7 +188,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			{
 				//print("PickUp cage");
 				
-				CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
+				CompanionnOBJ.transform.position = new Vector3(this.gameObject.transform.position.x + 2, this.gameObject.transform.position.y + 1, this.gameObject.transform.position.z);
 				
 			}
 		}
@@ -234,7 +235,6 @@ public class PlayerBehaviour : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Pushable")
 		{
-			
 			moveSpeed = 15;
 		}
 	}
@@ -257,7 +257,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (col.gameObject.tag == "Climeable")
         {
-            print("Ladder");
+            //print("Ladder");
 
             if (Input.GetKey(KeyCode.Q))
             {
@@ -269,7 +269,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (col.gameObject.tag == "Lever")
         {
-            print("Lever");
+            //print("Lever");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
