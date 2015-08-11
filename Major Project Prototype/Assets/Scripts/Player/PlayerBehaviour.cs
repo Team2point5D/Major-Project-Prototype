@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-[
+
 public class PlayerBehaviour : MonoBehaviour {
 
 	[Header("Powers")]
