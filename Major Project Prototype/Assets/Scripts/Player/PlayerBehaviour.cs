@@ -26,6 +26,10 @@ public class PlayerBehaviour : MonoBehaviour {
 	private float jumpIncreaseTime;
 	private bool bIsGrounded = true;
 
+    [Range(1f, 100f)]
+    [SerializeField]
+    float gravityForce;
+
 	[Header("User Interface")]
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
@@ -61,6 +65,9 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+        //Vector3 extraGravityForce = (Physics.gravity * gravityForce) - Physics.gravity;
+        //rigidbody.AddForce(extraGravityForce);
+
 		float clampedY = Mathf.Clamp (0, 0, 0);
 		float clampedZ = Mathf.Clamp (0, 0, 0);
 		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, clampedY, clampedZ);
@@ -112,11 +119,15 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Player move input
 		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
 		{
-			transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+			//transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+
+            rigidbody.velocity = -Vector3.right * moveSpeed * Time.deltaTime;
 		}
 		if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
 		{
-			transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+			//transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+
+            rigidbody.velocity = Vector3.right * moveSpeed * Time.deltaTime;
 		}
         // TO DO: add xbox controller support
 		transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
