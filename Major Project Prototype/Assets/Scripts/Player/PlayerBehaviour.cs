@@ -119,13 +119,13 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Player move input
 		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey (KeyCode.A))
 		{
-			//transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
+//			transform.Translate(-Vector3.right * moveSpeed * Time.deltaTime);
 
             rigidbody.velocity = -Vector3.right * moveSpeed * Time.deltaTime;
 		}
 		if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey (KeyCode.D))
 		{
-			//transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+//			transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
 
             rigidbody.velocity = Vector3.right * moveSpeed * Time.deltaTime;
 		}
