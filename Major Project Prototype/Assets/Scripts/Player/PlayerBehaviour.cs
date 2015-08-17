@@ -24,6 +24,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	public float jumpIncrease;
 	public float pushPullForce;
 	private float jumpIncreaseTime;
+	public float rotationTimer = 0;
 	private bool bIsGrounded = true;
 
     [Range(1f, 100f)]
@@ -48,6 +49,8 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	void Update ()
 	{
+		rotationTimer = Mathf.Clamp (rotationTimer, 0, 1);
+
 		if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
 		{
 			bIsHeavySelected = !bIsHeavySelected;
@@ -95,6 +98,11 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Make a raycast that checks player is on ground or ceilling
 		if (bIsGravityReversed == false)
 		{
+			rotationTimer -= 2f * Time.deltaTime;
+			transform.localEulerAngles = Vector3.Lerp (new Vector3(0, 0, 0),
+			                                           new Vector3(180, 0, 0),
+			                                           rotationTimer);
+
 			if (Physics.Raycast(transform.position, Vector3.down, 1f))
 			{ 
 				bIsGrounded = true;
@@ -106,6 +114,11 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 		else
 		{
+			rotationTimer += 2f * Time.deltaTime;
+			transform.localEulerAngles = Vector3.Lerp (new Vector3(0, 0, 0),
+			                                           new Vector3(180, 0, 0),
+			                                           rotationTimer);
+
 			if (Physics.Raycast(transform.position, Vector3.up, 1f))
 			{ 
 				bIsGrounded = true;
@@ -130,7 +143,8 @@ public class PlayerBehaviour : MonoBehaviour {
             rigidbody.velocity = Vector3.right * moveSpeed * Time.deltaTime;
 		}
         // TO DO: add xbox controller support
-		transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
+		Debug.Log ("" + Input.GetAxis("LeftThumbstickX") + "");
+		rigidbody.velocity = Vector3.right * Input.GetAxis("LeftThumbstickX") *moveSpeed * Time.deltaTime;
 		
 		//If the player is on the ground or the ceilling
 		if(bIsGravityReversed == false)
