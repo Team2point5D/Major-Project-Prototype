@@ -37,6 +37,9 @@ public class PlayerBehaviour : MonoBehaviour {
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
 
+	public float fClampedY = 0;
+	public float fClampedX = 0;
+
 	private Rigidbody myRigidBody;
 
 	private GameObject CompanionnOBJ;
@@ -56,6 +59,33 @@ public class PlayerBehaviour : MonoBehaviour {
 		Vector3 cursorPosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
 		Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3 (0f, 0f, 0f));
 		rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+
+		fClampedX = Mathf.Clamp (fClampedX, -100, 100);
+		fClampedY = Mathf.Clamp (fClampedY, -100, 100);
+
+		if (fClampedY >= 0)
+		{
+			if (fClampedX >= 0)
+			{
+				fClampedX = 100 - fClampedY;
+			}
+			else
+			{
+				fClampedX = -100 + fClampedY;
+			}
+		}
+		else
+		{
+			if (fClampedX >= 0)
+			{
+				fClampedY = fClampedX - 100;
+			}
+			else
+			{
+				fClampedY = -100 - fClampedX;
+			}
+		}
+
 		cursorPosition.x = Mathf.Clamp (cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
 		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
 		imAimer.rectTransform.position = cursorPosition;
