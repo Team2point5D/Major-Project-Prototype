@@ -24,7 +24,6 @@ public class PlayerBehaviour : MonoBehaviour {
 	public float jumpIncrease;
 	public float pushPullForce;
 	private float jumpIncreaseTime;
-	public float rotationTimer = 0;
 	private bool bIsGrounded = true;
 
     [Range(1f, 100f)]
@@ -32,8 +31,14 @@ public class PlayerBehaviour : MonoBehaviour {
     float gravityForce;
 
 	[Header("User Interface")]
+	public RectTransform rectCanvas;
+	public Image rectAimerFollow;
+	public Image imAimer;
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
+
+	public float fClampedY = 0;
+	public float fClampedX = 0;
 
 	private Rigidbody myRigidBody;
 
@@ -49,7 +54,44 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	void Update ()
 	{
-		rotationTimer = Mathf.Clamp (rotationTimer, 0, 1);
+
+
+		Vector3 cursorPosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
+		Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3 (0f, 0f, 0f));
+		rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+
+		fClampedX = Mathf.Clamp (fClampedX, -100, 100);
+		fClampedY = Mathf.Clamp (fClampedY, -100, 100);
+
+		if (fClampedY >= 0)
+		{
+			if (fClampedX >= 0)
+			{
+				fClampedX = 100 - fClampedY;
+			}
+			else
+			{
+				fClampedX = -100 + fClampedY;
+			}
+		}
+		else
+		{
+			if (fClampedX >= 0)
+			{
+				fClampedY = fClampedX - 100;
+			}
+			else
+			{
+				fClampedY = -100 - fClampedX;
+			}
+		}
+
+		cursorPosition.x = Mathf.Clamp (cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+		imAimer.rectTransform.position = cursorPosition;
+
+		Screen.showCursor = false;
+
 
 		if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
 		{
@@ -98,11 +140,6 @@ public class PlayerBehaviour : MonoBehaviour {
 		// Make a raycast that checks player is on ground or ceilling
 		if (bIsGravityReversed == false)
 		{
-			rotationTimer -= 2f * Time.deltaTime;
-			transform.localEulerAngles = Vector3.Lerp (new Vector3(0, 0, 0),
-			                                           new Vector3(180, 0, 0),
-			                                           rotationTimer);
-
 			if (Physics.Raycast(transform.position, Vector3.down, 1f))
 			{ 
 				bIsGrounded = true;
@@ -114,11 +151,6 @@ public class PlayerBehaviour : MonoBehaviour {
 		}
 		else
 		{
-			rotationTimer += 2f * Time.deltaTime;
-			transform.localEulerAngles = Vector3.Lerp (new Vector3(0, 0, 0),
-			                                           new Vector3(180, 0, 0),
-			                                           rotationTimer);
-
 			if (Physics.Raycast(transform.position, Vector3.up, 1f))
 			{ 
 				bIsGrounded = true;
@@ -143,8 +175,7 @@ public class PlayerBehaviour : MonoBehaviour {
             rigidbody.velocity = Vector3.right * moveSpeed * Time.deltaTime;
 		}
         // TO DO: add xbox controller support
-		Debug.Log ("" + Input.GetAxis("LeftThumbstickX") + "");
-		rigidbody.velocity = Vector3.right * Input.GetAxis("LeftThumbstickX") *moveSpeed * Time.deltaTime;
+		transform.Translate(Vector3.right * Input.GetAxis("LeftThumbstickX") * moveSpeed * Time.deltaTime);
 		
 		//If the player is on the ground or the ceilling
 		if(bIsGravityReversed == false)
