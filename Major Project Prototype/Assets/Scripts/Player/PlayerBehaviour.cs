@@ -60,6 +60,8 @@ public class PlayerBehaviour : MonoBehaviour {
 		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
 		imAimer.rectTransform.position = cursorPosition;
 
+		Screen.showCursor = false;
+
 
 		if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
 		{
