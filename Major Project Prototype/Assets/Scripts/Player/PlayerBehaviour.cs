@@ -31,6 +31,9 @@ public class PlayerBehaviour : MonoBehaviour {
     float gravityForce;
 
 	[Header("User Interface")]
+	public RectTransform rectCanvas;
+	public Image rectAimerFollow;
+	public Image imAimer;
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
 
@@ -48,6 +51,16 @@ public class PlayerBehaviour : MonoBehaviour {
 
 	void Update ()
 	{
+
+
+		Vector3 cursorPosition = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0);
+		Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position + new Vector3 (0f, 0f, 0f));
+		rectAimerFollow.rectTransform.anchoredPosition = screenPoint - rectCanvas.sizeDelta / 2f;
+		cursorPosition.x = Mathf.Clamp (cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
+		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
+		imAimer.rectTransform.position = cursorPosition;
+
+
 		if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown("2"))
 		{
 			bIsHeavySelected = !bIsHeavySelected;
