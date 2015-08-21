@@ -21,6 +21,8 @@ public class PuzzleOneGravCube : MonoBehaviour {
            // rigidbody.useGravity = true;
 
             rigidbody.AddForce(new Vector3(0, -10, 0));
+
+            print("Down");
         }
         else if(Player.bIsGravityReversed == false)
         {
@@ -28,25 +30,7 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
             rigidbody.AddForce(new Vector3(0,10,0));
 
-
+            print("Up");
         }
-//		if (Player.bIsGravityReversed == true)
-//		{
-//			// rigidbody.useGravity = true;
-//			
-//			rigidbody.AddForce(new Vector3(0, -10, 0));
-//		}
-//		else if(PB.bIsGravityReversed == false)
-//		{
-//			// rigidbody.useGravity = false;
-//			
-//			rigidbody.AddForce(new Vector3(0,10,0));
-//			
-//			
-//		}
-
-
-        
-	
 	}
 }

@@ -259,7 +259,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Companion")
 		{
-			print("Companion");
+			//print("Companion");
 			
 			CompanionnOBJ = col.gameObject;
 			
@@ -274,7 +274,7 @@ public class PlayerBehaviour : MonoBehaviour {
 		
 		if (col.gameObject.tag == "Pushable")
 		{
-			print("Hit Crate");
+			//print("Hit Crate");
 			
 			thingToPushPull = col.gameObject;
 			
@@ -300,7 +300,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Magic Area")
 		{
-			print("Im in magic");
+			//print("Im in magic");
 			
 			inMagic = true;
 		}
@@ -318,7 +318,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.Q))
             {
-               // gameObject.transform.position = new Vector3(0,
+              
 
                 transform.Translate(0f, 0.5f, 0f);
             }
@@ -339,7 +339,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Magic Area")
 		{
-			print("Im OUT magic");
+			//print("Im OUT magic");
 			
 			inMagic = false;
 			
