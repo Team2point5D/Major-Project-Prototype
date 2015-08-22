@@ -17,6 +17,7 @@ public class PlayerBehaviour : MonoBehaviour {
 	public Transform shotSpot;
 	public GameObject shotBullet;
 	private bool canShoot;
+    public AudioClip shootSound;
 
 	[Header("Movement")]
 	public float moveSpeed;
@@ -49,12 +50,14 @@ public class PlayerBehaviour : MonoBehaviour {
 	private GameObject thingToPushPull;
 	private GameObject shotParent;
 
+    AudioSource aSource;
    
 
 	void Start()
 	{
 		myRigidBody = this.gameObject.GetComponent<Rigidbody>();
 		shotParent = GameObject.Find("Magic Shots");
+        aSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
 	}
 
 	void Update ()
@@ -138,6 +141,10 @@ public class PlayerBehaviour : MonoBehaviour {
 				//projectile.transform.parent = shotParent.transform;
 				
 				projectile.rigidbody.velocity = direction * shootSpeed;
+
+                aSource.clip = shootSound;
+
+                aSource.Play();
 				
 			}
 		}
