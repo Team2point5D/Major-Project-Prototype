@@ -220,13 +220,13 @@ public class PlayerBehaviour : MonoBehaviour {
         if (Input.GetKeyDown("3"))
         {
             	Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-				Vector2 myPos = new Vector2(shotSpot.transform.position.x,shotSpot.transform.position.y);
+				Vector2 myPos = new Vector2(shotSpot.transform.position.x + 2,shotSpot.transform.position.y);
 				Vector2 direction = target - myPos;
 				direction.Normalize();
 				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
 
 
-                GameObject sonarShoot = (GameObject)Instantiate(sonarBull, myPos, rotation);
+                GameObject sonarShoot = (GameObject)Instantiate(sonarBull, myPos, Quaternion.identity);
         }
 		
 		// Flip Gravity
