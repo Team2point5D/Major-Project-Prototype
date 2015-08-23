@@ -222,11 +222,12 @@ public class PlayerBehaviour : MonoBehaviour {
         //Sonar
         if (Input.GetKeyDown("3"))
         {
-            	Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-				Vector2 myPos = new Vector2(shotSpot.transform.position.x + 2,shotSpot.transform.position.y);
-				Vector2 direction = target - myPos;
-				direction.Normalize();
-				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
+            	//Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            Vector2 myPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z - 4);
+           // shotSpot.transform.position.x,shotSpot.transform.position.y
+				//Vector2 direction = target - myPos;
+				//direction.Normalize();
+				//Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
 
 
                 GameObject sonarShoot = (GameObject)Instantiate(sonarBull, myPos, Quaternion.identity);
