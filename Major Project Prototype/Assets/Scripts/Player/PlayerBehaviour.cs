@@ -97,7 +97,6 @@ public class PlayerBehaviour : MonoBehaviour {
 		cursorPosition.x = Mathf.Clamp (cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
 		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
 		imAimer.rectTransform.position = cursorPosition;
-
 		Screen.showCursor = false;
 
 
@@ -129,21 +128,15 @@ public class PlayerBehaviour : MonoBehaviour {
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				// Instantiate(shotBullet, shotSpot.position, Quaternion.identity);
-				
-				Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-				Vector2 myPos = new Vector2(shotSpot.transform.position.x,shotSpot.transform.position.y);
-				Vector2 direction = target - myPos;
-				direction.Normalize();
+				Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+				Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+				Vector3 myPos = new Vector3(shotSpot.transform.position.x,shotSpot.transform.position.y, 0);
 				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
 				GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
-				
-				//projectile.transform.parent = shotParent.transform;
-				
+
 				projectile.rigidbody.velocity = direction * shootSpeed;
 
                 aSource.clip = shootSound;
-
                 aSource.Play();
 				
 			}
