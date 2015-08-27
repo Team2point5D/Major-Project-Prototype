@@ -31,26 +31,37 @@ public class PlayerBehaviour : MonoBehaviour {
     [SerializeField]
     float gravityForce;
 
+    [Header("Sonar")]
+    public GameObject sonarBull;
+
+    private Rigidbody myRigidBody;
+
+    private GameObject CompanionnOBJ;
+    private GameObject thingToPushPull;
+    private GameObject shotParent;
+
+    AudioSource aSource;
+
+    [Header("Scale")]
+    public float scaleUpSize;
+    public float scaleDownSize;
+
+    public bool isUpScale;
+
+   
+
 	[Header("User Interface")]
 	public RectTransform rectCanvas;
 	public Image rectAimerFollow;
 	public Image imAimer;
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
+    public Text teSelectedScale;
 
 	public float fClampedY = 0;
 	public float fClampedX = 0;
 
-    [Header("Sonar")]
-    public GameObject sonarBull;
 
-	private Rigidbody myRigidBody;
-
-	private GameObject CompanionnOBJ;
-	private GameObject thingToPushPull;
-	private GameObject shotParent;
-
-    AudioSource aSource;
    
 
 	void Start()
@@ -113,6 +124,22 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             teSelectedMass.text = "Light";
         }
+
+        if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
+        {
+            isUpScale = !isUpScale;
+        }
+
+        if (isUpScale)
+        {
+            teSelectedScale.text = "Large Scale";
+        }
+        else
+        {
+            teSelectedScale.text = "Small Scale";
+        }
+
+        
 	}
 
 	void FixedUpdate()
@@ -136,10 +163,28 @@ public class PlayerBehaviour : MonoBehaviour {
 
 				projectile.rigidbody.velocity = direction * shootSpeed;
 
+                projectile.tag = "Bullet";
+
                 aSource.clip = shootSound;
                 aSource.Play();
 				
 			}
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Vector3 myPos = new Vector3(shotSpot.transform.position.x, shotSpot.transform.position.y, 0);
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+                GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
+
+                projectile.rigidbody.velocity = direction * shootSpeed;
+
+                projectile.tag = "Scale Bullet";
+
+                aSource.clip = shootSound;
+                aSource.Play();
+            }
 		}
 
 		// Make a raycast that checks player is on ground or ceilling
@@ -211,7 +256,7 @@ public class PlayerBehaviour : MonoBehaviour {
 				}
 			}
 		}
-		
+
         //Sonar
         if (Input.GetKeyDown("3"))
         {

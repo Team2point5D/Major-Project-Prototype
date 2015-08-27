@@ -2,18 +2,29 @@
 using UnityEngine.UI;
 using System.Collections;
 
-    //David
+//David
 public class Crate : MonoBehaviour {
 
+    [Header("Mass")]
 	public bool bIsObjectLight = false;
 	public bool bIsObjectHeavy = false;
 	public bool bIsObjectZeroMass = false;
+
+    [Header("Scale")]
+    public bool bIsBig;
+
+    float scaleUSize;
+    float scaleSSize;
 
 	private PlayerBehaviour PlayerBehaviour;
 
 	void Start ()
 	{
 		PlayerBehaviour = GameObject.FindWithTag ("Player").GetComponent<PlayerBehaviour>();
+
+        scaleUSize = PlayerBehaviour.scaleUpSize;
+
+        scaleSSize = PlayerBehaviour.scaleDownSize;
 	}
 
 	void Update () 
@@ -29,6 +40,19 @@ public class Crate : MonoBehaviour {
 			gameObject.rigidbody.useGravity = false;
 			gameObject.renderer.material.color = Color.black;
 		}
+
+        //Marcus
+        if (bIsBig == true)
+        {
+            transform.localScale = new Vector3(scaleUSize, 0, 0);
+            gameObject.renderer.material.color = Color.red;
+        }
+        else
+        {
+            transform.localScale = new Vector3(scaleSSize, 0, 0);
+            gameObject.renderer.material.color = Color.blue;
+        }
+
 	}
 
 	void ChangeMass ()
@@ -52,12 +76,21 @@ public class Crate : MonoBehaviour {
 		}
 	}
 
+    void ChangeScale()
+    {
+    }
+
 	void OnTriggerEnter(Collider col)
 	{
 		if(col.gameObject.tag == "Bullet")
 		{
 			ChangeMass();
 		}
+
+        if (col.gameObject.tag == "Scale Bullet")
+        {
+            bIsBig = !bIsBig;
+        }
 	}
 
 }
