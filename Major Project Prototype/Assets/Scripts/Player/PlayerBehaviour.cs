@@ -157,9 +157,8 @@ public class PlayerBehaviour : MonoBehaviour {
 			{
 				Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
 				Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-				Vector3 myPos = new Vector3(shotSpot.transform.position.x,shotSpot.transform.position.y, 0);
 				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
-				GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
+				GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
 				projectile.rigidbody.velocity = direction * shootSpeed;
 
@@ -174,9 +173,8 @@ public class PlayerBehaviour : MonoBehaviour {
             {
                 Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 direction = (Input.mousePosition - screenpoint).normalized;
-                Vector3 myPos = new Vector3(shotSpot.transform.position.x, shotSpot.transform.position.y, 0);
                 Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
-                GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
+				GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
 
                 projectile.rigidbody.velocity = direction * shootSpeed;
 

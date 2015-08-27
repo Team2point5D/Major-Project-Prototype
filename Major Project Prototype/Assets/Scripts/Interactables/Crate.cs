@@ -13,8 +13,9 @@ public class Crate : MonoBehaviour {
     [Header("Scale")]
     public bool bIsBig;
 
-    float scaleUSize;
-    float scaleSSize;
+	public float fScaleTimer = 0;
+    public float scaleUSize = 1;
+    public float scaleSSize = 1;
 
 	private PlayerBehaviour PlayerBehaviour;
 
@@ -29,6 +30,8 @@ public class Crate : MonoBehaviour {
 
 	void Update () 
 	{
+		fScaleTimer = Mathf.Clamp (fScaleTimer, 0, 1);
+
 		if(!bIsObjectHeavy && !bIsObjectLight)
 		{
 			gameObject.rigidbody.mass = 5;
@@ -42,14 +45,17 @@ public class Crate : MonoBehaviour {
 		}
 
         //Marcus
+		transform.localScale = Vector3.Lerp (new Vector3(scaleUSize, transform.localScale.y, transform.localScale.z),
+		                                     new Vector3(scaleSSize, transform.localScale.y, transform.localScale.z),
+		                                     fScaleTimer);
         if (bIsBig == true)
         {
-            transform.localScale = new Vector3(scaleUSize, 0, 0);
+			fScaleTimer -= 5 * Time.deltaTime;
             gameObject.renderer.material.color = Color.red;
         }
         else
         {
-            transform.localScale = new Vector3(scaleSSize, 0, 0);
+			fScaleTimer += 5 * Time.deltaTime;
             gameObject.renderer.material.color = Color.blue;
         }
 
