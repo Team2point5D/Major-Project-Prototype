@@ -31,26 +31,37 @@ public class PlayerBehaviour : MonoBehaviour {
     [SerializeField]
     float gravityForce;
 
+    [Header("Sonar")]
+    public GameObject sonarBull;
+
+    private Rigidbody myRigidBody;
+
+    private GameObject CompanionnOBJ;
+    private GameObject thingToPushPull;
+    private GameObject shotParent;
+
+    AudioSource aSource;
+
+    [Header("Scale")]
+    public float scaleUpSize;
+    public float scaleDownSize;
+
+    public bool isUpScale;
+
+   
+
 	[Header("User Interface")]
 	public RectTransform rectCanvas;
 	public Image rectAimerFollow;
 	public Image imAimer;
 	public Text teSelectedMass;
 	public Text teSelectedGravity;
+    public Text teSelectedScale;
 
 	public float fClampedY = 0;
 	public float fClampedX = 0;
 
-    [Header("Sonar")]
-    public GameObject sonarBull;
 
-	private Rigidbody myRigidBody;
-
-	private GameObject CompanionnOBJ;
-	private GameObject thingToPushPull;
-	private GameObject shotParent;
-
-    AudioSource aSource;
    
 
 	void Start()
@@ -97,7 +108,6 @@ public class PlayerBehaviour : MonoBehaviour {
 		cursorPosition.x = Mathf.Clamp (cursorPosition.x, (rectAimerFollow.rectTransform.position.x - 100), (rectAimerFollow.rectTransform.position.x + 100));
 		cursorPosition.y = Mathf.Clamp (cursorPosition.y, (rectAimerFollow.rectTransform.position.y - 100), (rectAimerFollow.rectTransform.position.y + 100));
 		imAimer.rectTransform.position = cursorPosition;
-
 		Screen.showCursor = false;
 
 
@@ -114,6 +124,22 @@ public class PlayerBehaviour : MonoBehaviour {
         {
             teSelectedMass.text = "Light";
         }
+
+        if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown("4"))
+        {
+            isUpScale = !isUpScale;
+        }
+
+        if (isUpScale)
+        {
+            teSelectedScale.text = "Large Scale";
+        }
+        else
+        {
+            teSelectedScale.text = "Small Scale";
+        }
+
+        
 	}
 
 	void FixedUpdate()
@@ -129,24 +155,34 @@ public class PlayerBehaviour : MonoBehaviour {
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				// Instantiate(shotBullet, shotSpot.position, Quaternion.identity);
-				
-				Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-				Vector2 myPos = new Vector2(shotSpot.transform.position.x,shotSpot.transform.position.y);
-				Vector2 direction = target - myPos;
-				direction.Normalize();
+				Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+				Vector3 direction = (Input.mousePosition - screenpoint).normalized;
 				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
-				GameObject projectile = (GameObject)Instantiate(shotBullet, myPos, rotation);
-				
-				//projectile.transform.parent = shotParent.transform;
-				
+				GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+
 				projectile.rigidbody.velocity = direction * shootSpeed;
 
-                aSource.clip = shootSound;
+                projectile.tag = "Bullet";
 
+                aSource.clip = shootSound;
                 aSource.Play();
 				
 			}
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Vector3 screenpoint = Camera.main.WorldToScreenPoint(transform.position);
+                Vector3 direction = (Input.mousePosition - screenpoint).normalized;
+                Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90);
+				GameObject projectile = (GameObject)Instantiate(shotBullet, shotSpot.position, rotation);
+
+                projectile.rigidbody.velocity = direction * shootSpeed;
+
+                projectile.tag = "Scale Bullet";
+
+                aSource.clip = shootSound;
+                aSource.Play();
+            }
 		}
 
 		// Make a raycast that checks player is on ground or ceilling
@@ -218,15 +254,16 @@ public class PlayerBehaviour : MonoBehaviour {
 				}
 			}
 		}
-		
+
         //Sonar
         if (Input.GetKeyDown("3"))
         {
-            	Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-				Vector2 myPos = new Vector2(shotSpot.transform.position.x + 2,shotSpot.transform.position.y);
-				Vector2 direction = target - myPos;
-				direction.Normalize();
-				Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
+            	//Vector2 target = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+            Vector2 myPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z - 4);
+           // shotSpot.transform.position.x,shotSpot.transform.position.y
+				//Vector2 direction = target - myPos;
+				//direction.Normalize();
+				//Quaternion rotation = Quaternion.Euler( 0, 0, Mathf.Atan2 ( direction.y, direction.x ) * Mathf.Rad2Deg + 90 );
 
 
                 GameObject sonarShoot = (GameObject)Instantiate(sonarBull, myPos, Quaternion.identity);

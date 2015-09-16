@@ -22,7 +22,7 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
             rigidbody.AddForce(new Vector3(0, -10, 0));
 
-            print("Down");
+           // print("Down");
         }
         else if(Player.bIsGravityReversed == false)
         {
@@ -30,7 +30,7 @@ public class PuzzleOneGravCube : MonoBehaviour {
 
             rigidbody.AddForce(new Vector3(0,10,0));
 
-            print("Up");
+           // print("Up");
         }
 	}
 }
